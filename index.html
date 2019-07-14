@@ -1,120 +1,70 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-	<head>
-		<title>cricel</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link rel="stylesheet" href="css/loader/fly.css">
-		<link rel="stylesheet" href="css/navbar.css">
-		<style>
-			body {
-				background-color: #bfe3dd;
-				color: #000;
-			}
+<head>
+	<title>Cricel-Design</title>
+	<link rel="icon" href="images/logo_black.png">
 
-			a {
-				color: #2983ff;
-			}
-		</style>
-	</head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
 
-	<body>
-		<nav>
-			<ul>
-				<li style="float:left"><a href="#"><img src="images/logo_black.png" alt="Logo" width="50" height="60"></a></li>
-				
-				<li><a href="#about">About Me</a></li>
-				<li><a href="#news">Life</a></li>
-				<li><a href="#contact">Coding</a></li>
-			</ul>
-		</nav>
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7CPoppins:400,500" rel="stylesheet">
 
-		<div id="loading"><h1>Redirecting..0%</h1></div>
-		<div id="container"></div>
-		<div id="info"></div>
+	<!-- Stylesheets -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/ionicons.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/jquery.classycountdown.css" />
+	<link href="css/styles.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
 
-		<script type="module">
+</head>
+<body>
+	<div class="main-area">
+		<div class="container full-height position-static">
 
-			import * as THREE from './js/three.js/build/three.module.js';
-            import {OrbitControls} from './js/three.js/examples/jsm/controls/OrbitControls.js';
-            import {ObjectLoader} from './js/three.js/src/loaders/ObjectLoader.js';
-			import { GLTFLoader } from './js/three.js/examples/jsm/loaders/GLTFLoader.js';
+			<section class="left-section full-height">
+				<a class="logo" href="#"><img src="images/logo_web.png" alt="Logo"></a>
+				<div class="display-table">
+					<div class="display-table-cell">
+						<div class="main-content">
+							<h1 class="title"><b>Under Construction</b></h1>
+							<p>
+								This site is currently undergoing maintenance,
+								and will be back shortly.
+								Thank you for your patience.
+							</p>
+								<br/>
+								<ul class="footer-icons">
+									<li>Stay in touch : </li>
+									<li><a href="https://github.com/cricel"><i class="ion-social-github"></i></a></li>
+								</ul>
+						</div><!-- main-content -->
+					</div><!-- display-table-cell -->
+				</div><!-- display-table -->
+			</section><!-- left-section -->
 
-			var scene, camera;
-			var renderer, controls;
-			var container = document.getElementById('container');
+			<section class="right-section" style="background-image: url(images/coming_soon.jpg)">
+				<div class="display-table center-text">
+					<div class="display-table-cell">
+						<div id="rounded-countdown">
+							<div class="countdown" data-remaining-sec="31536000"></div>
+						</div>
+					</div><!-- display-table-cell -->
+				</div><!-- display-table -->
+			</section><!-- right-section -->
 
-			// init scene
-			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			container.appendChild(renderer.domElement);
+		</div><!-- container -->
+	</div><!-- main-area -->
 
-			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0xbfe3dd);
+	<!-- SCIPTS -->
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/tether.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/jquery.classycountdown.js"></script>
+	<script src="js/jquery.knob.js"></script>
+	<script src="js/jquery.throttle.js"></script>
+	<script src="js/scripts.js"></script>
 
-			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 18;
-
-
-			controls = new OrbitControls(camera, renderer.domElement);
-			controls.enablePan = false;
-
-			scene.add(new THREE.AmbientLight(0x404040, 8));
-			
-			// loding model
-			var manager = new THREE.LoadingManager();
-			manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
-				console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-			};
-			manager.onLoad = function ( ) {
-				console.log( 'Loading complete!');
-
-				document.getElementById("loading").innerHTML = "";
-			};
-			manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-				console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-				
-				document.getElementById("loading").innerHTML = "<div class='body'> <span> <span></span><span></span><span></span><span></span> </span> <div class='base'> <span></span> <div class='face'></div> </div> </div> <h1>" + "Redirecting.." + (itemsLoaded / itemsTotal * 100) + "%" + "</h1>";
-
-			};
-			manager.onError = function ( url ) {
-				console.log( 'There was an error loading ' + url );
-			};
-
-
-            // gundam_unicorn || gundam_00_raiser || raid_boss_shogun || gundam_gat_105
-			var loader = new GLTFLoader(manager);
-			loader.load( 'resources/3dmodel/raid_boss_shogun/scene.gltf', function ( gltf ) {
-				scene.add( gltf.scene );
-			});
-
-
-			// update
-			window.onresize = function () {
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-
-				renderer.setSize( window.innerWidth, window.innerHeight );
-			};
-
-            var update = function(){
-                controls.update();
-            };
-            
-            var render = function(){
-                renderer.render(scene, camera);
-            };
-
-			var animate = function() {
-				requestAnimationFrame(animate);
-                update();
-                render();
-			}
-
-            animate();
-		</script>
-
-	</body>
-
+</body>
 </html>
