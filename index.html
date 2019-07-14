@@ -4,6 +4,7 @@
 		<title>cricel</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="css/loader/fly.css">
 		<style>
 			body {
 				background-color: #bfe3dd;
@@ -17,9 +18,16 @@
 	</head>
 
 	<body>
+		<nav>
+			<a href="#"><img src="images/logo_black.png" alt="Logo" width="50" height="60"></a>
+			<a href="/html/" align="right">HTML</a> |
+			<a href="/css/">CSS</a> |
+			<a href="/js/">JavaScript</a> |
+			<a href="/jquery/">jQuery</a>
+		</nav>
 
+		<div id="loading"></div>
 		<div id="container"></div>
-
 		<div id="info"></div>
 
 		<script type="module">
@@ -31,9 +39,9 @@
 
 			var scene, camera;
 			var renderer, controls;
-
 			var container = document.getElementById('container');
 
+			// init scene
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
 			renderer.setSize(window.innerWidth, window.innerHeight);
@@ -51,15 +59,35 @@
 
 			scene.add(new THREE.AmbientLight(0x404040, 8));
 			
+			// loding model
+			var manager = new THREE.LoadingManager();
+			manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+				console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+			};
+			manager.onLoad = function ( ) {
+				console.log( 'Loading complete!');
+
+				document.getElementById("loading").innerHTML = "";
+			};
+			manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+				console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+				
+				document.getElementById("loading").innerHTML = "<div class='body'> <span> <span></span><span></span><span></span><span></span> </span> <div class='base'> <span></span> <div class='face'></div> </div> </div> <h1>" + "Redirecting.." + (itemsLoaded / itemsTotal * 100) + "%" + "</h1>";
+
+			};
+			manager.onError = function ( url ) {
+				console.log( 'There was an error loading ' + url );
+			};
+
+
             // gundam_unicorn || gundam_00_raiser || raid_boss_shogun || gundam_gat_105
-			var loader = new GLTFLoader();
+			var loader = new GLTFLoader(manager);
 			loader.load( 'resources/3dmodel/raid_boss_shogun/scene.gltf', function ( gltf ) {
 				scene.add( gltf.scene );
-			}, undefined, function ( error ) {
-				console.error( error );
 			});
 
 
+			// update
 			window.onresize = function () {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
